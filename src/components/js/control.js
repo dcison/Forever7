@@ -143,6 +143,13 @@ class Control extends React.Component{
             hasPlus: false
         }
     }
+    componentDidUpdate (){
+        let city = this.state.city
+        if (this.props.data.day == 5 && !city[2].hasOpen && !city[3].hasOpen){
+            city[2].blackcore = 2
+            city[3].blackcore = 2
+        }
+    }
     componentWillMount(){
         this.setState({
             artifactList: ArtifactList,
@@ -152,8 +159,7 @@ class Control extends React.Component{
         this.props.changeData(3,5)
         this.props.changeData(4,5)
     }
-    componentDidMount(){
-    }
+    
     handleSelect(k){
         this.setState({
             currentKey: k,
@@ -2803,7 +2809,9 @@ class Control extends React.Component{
                         <h3>
                             情报系统
                         </h3>
-                        <Intelligence />
+                        <Intelligence 
+                            data={this.props.data}
+                        />
                     </Col>
                     <Col sm={12}>
                         <h3>
@@ -2820,12 +2828,12 @@ class Control extends React.Component{
                         <ButtonToolbar onClick={(e)=>{this.handleClick(e)}}>
                             <Button bsStyle="success" >中央庭</Button>
                             <Button id="highSchool" bsStyle="danger">高校学园</Button>
-                            <Button id="eastStreet" disabled>东方古街</Button>
-                            <Button id="centerDown" disabled>中央城区</Button>
-                            <Button id="institute" disabled>研究所</Button>
-                            <Button id="bay" disabled>海湾侧城</Button>
-                            <Button id="oldDown" disabled>旧城区</Button>
-                            <Button id="harbour" disabled>港湾区</Button>
+                            <Button bsStyle={this.state.city[2].blackcore==2?"warning":"default"} id="eastStreet" disabled>东方古街</Button>
+                            <Button bsStyle={this.state.city[3].blackcore==2?"warning":"default"} id="centerDown" disabled>中央城区</Button>
+                            <Button bsStyle={this.state.city[4].blackcore==2?"warning":"default"} id="institute" disabled>研究所</Button>
+                            <Button bsStyle={this.state.city[5].blackcore==2?"warning":"default"} id="bay" disabled>海湾侧城</Button>
+                            <Button bsStyle={this.state.city[6].blackcore==2?"warning":"default"} id="oldDown" disabled>旧城区</Button>
+                            <Button bsStyle={this.state.city[7].blackcore==2?"warning":"default"} id="harbour" disabled>港湾区</Button>
                         </ButtonToolbar>
                     </Col>
                     <Col sm={12} id="cityShow">

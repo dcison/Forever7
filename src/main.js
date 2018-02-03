@@ -13,7 +13,7 @@ class Main extends React.Component{
   constructor(props){
       super(props)
       this.state = {
-          day: 7, //初始第七天
+          day: 5, //初始第七天
           magic: 0, //幻力起始为5
           tech: 0, //科技起始5
           info: 0, //情报初始5

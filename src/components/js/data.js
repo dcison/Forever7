@@ -221,3 +221,77 @@ export const ArtifactList = [{ //神器使数量为43
         sex: 1
     }
 ]
+
+export const Information = {
+    daily:[//日常的随机情报
+        {
+            name: "流言蜚语",
+            need: 35,
+            affect: 5
+        },
+        {
+            name: "流感肆虐",
+            need: 45,
+            affect: 5
+        },
+        {
+            name: "不稳定黑门",
+            need: 15,
+            affect: 1
+        },
+        {
+            name: "魔兽的报复",
+            need: 30,
+            affect: 20
+        },
+        {
+            name: "交通故障",
+            need: 10,
+            affect: 6
+        },
+        {
+            name: "神秘影(绿)装",
+            need: 20,
+            affect: 0
+        },
+        {
+            name: "幻力屏障增强",
+            need: 45,
+            affect: 0
+        }
+    ],
+    hero:[//希罗夺取黑核情报
+        {
+            name: "希罗夺取港湾区",
+            city: "港湾区",
+            need: 60
+        },
+        {
+            name: "希罗夺取旧城区",
+            city: "旧城区",
+            need: 60
+        },
+        {
+            name: "希罗夺取海湾侧城",
+            city: "海湾侧城",
+            need: 60
+        }
+    ],
+    assassination:[//刺杀情报
+        {
+            name: "突袭港湾区",
+            city: "港湾区",
+            need: 70
+        },
+        {
+            name: "突袭旧城区",
+            city: "旧城区",
+            need: 60
+        },
+        {
+            name: "突袭海湾侧城",
+            city: "海湾侧城",
+            need: 45
+        }
+    ]
+}
