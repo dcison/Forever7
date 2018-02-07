@@ -1,13 +1,14 @@
 import React from 'react'
 import {Button,Col,Panel, PageHeader,Alert} from 'react-bootstrap'
 import {Information} from './data'
+import ReactDom from 'react-dom'
 import '../assets/less/intelligence.less'
 class Intelligence extends React.Component{
     constructor(props){
         super(props)
         this.state = {
             daily: [],
-            hero: {},
+            hero: null,
             currentDay: 5,
             hasStop: 0,
             name: []
@@ -17,30 +18,39 @@ class Intelligence extends React.Component{
         this.setIntelligence()
     }
     setIntelligence(){
-        let num1 = Math.floor(Math.random()*7),
+        if (this.props.day <=5 ){
+            let num1 = Math.floor(Math.random()*7),
             num2 = Math.floor(Math.random()*7),
             arr = [],
-            name = []
-        while(num1 == num2){
-            num2 = Math.floor(Math.random()*7)
-        }
-        arr.push(Information.daily[num1])
-        arr.push(Information.daily[num2])
-        name.push(Information.daily[num1].name)
-        name.push(Information.daily[num2].name)
-        name.push(Information.hero[5 - this.props.data.day].name)
-        this.setState({
-            daily: arr,
-            hero: Information.hero[5 - this.props.data.day],
-            name: name
-        })
+            name = [],
+            temp = null
+            while(num1 == num2){
+                num2 = Math.floor(Math.random()*7)
+            }
+            arr.push(Information.daily[num1])
+            arr.push(Information.daily[1])
+            name.push(Information.daily[num1].name)
+            name.push(Information.daily[1].name)
+            if (this.props.data.day > 2){
+                temp = Information.hero[5 - this.props.data.day]
+                name.push(temp.name)
+            }
+            this.setState({
+                daily: arr,
+                hero: temp == null?null:temp,
+                name: name
+            })
+        }        
     }
     componentDidUpdate(){
+        let node = ReactDom.findDOMNode(this)
         if (this.props.data.day < 5){
             if (this.props.data.day != this.state.currentDay){
                 this.setIntelligence()
+                node.querySelector('#sureIntelligence').disabled = false
                 this.setState({
-                    currentDay: this.state.currentDay - 1
+                    currentDay: this.state.currentDay - 1,
+                    hasStop: 0
                 })
             }
         }
@@ -70,7 +80,7 @@ class Intelligence extends React.Component{
                         arr.splice(index,1)
                         window.alert("成功阻止该事件")
                         this.setState({
-                            hasStop: need
+                            hasStop: this.state.hasStop + need
                         })
                     }
                 }else{
@@ -78,7 +88,7 @@ class Intelligence extends React.Component{
                 }
             }            
         }else{
-            if(Object.getOwnPropertyNames(this.state.hero).length == 0){
+            if( this.state.hero == null ){
                 window.alert("已阻止过该事件")
             }else{
                 if(this.props.data.info - this.state.hasStop  >= 60){
@@ -86,7 +96,8 @@ class Intelligence extends React.Component{
                     if (ensure){
                         window.alert("成功阻止该事件")
                         this.setState({
-                            hero: {}
+                            hero: null,
+                            hasStop: this.state.hasStop + 60
                         })
                     }                    
                 }else{
@@ -95,11 +106,39 @@ class Intelligence extends React.Component{
             }            
         }
     }
+    sureIntelligence(){
+        let sure = window.confirm("确认过后更改处理情报也无用了哦！"),
+            node = ReactDom.findDOMNode(this)
+        if (sure){
+            node.querySelector('#sureIntelligence').disabled = true
+            this.props.getIntelligence(this.state.daily,0)
+            this.props.getIntelligence(this.state.hero,1)
+        }
+    }
+    assassination(index){
+        let ensure 
+        if (this.props.data.info - this.state.hasStop >= Information.assassination[index].need){
+            ensure = window.confirm(`${Information.assassination[index].name}所需情报为${Information.assassination[index].need}，是否确认?`)
+            if (ensure){
+                this.props.getAssassination(7 - index)
+                this.setState({
+                    hasStop: this.state.hasStop + Information.assassination[index].need
+                })
+            }  
+        }else{
+            window.alert(`情报不足！当前情报${this.props.data.info - this.state.hasStop },所需情报为${Information.assassination[index].need}`)
+        }
+    }
     render(){
         let {day} = this.props.data
         return (
             <div>
-                <Alert bsStyle="warning">情报系统第五天开启，上方的情报值是<strong>总情报</strong>，不会因为处理情报而显示减少，在处理情报时会提示真正的剩余情报值</Alert>
+                <Alert bsStyle="warning">
+                    情报系统第五天开启，上方的情报值是<strong>总情报</strong>，
+                    不会因为处理情报而显示减少，在处理情报时会提示真正的剩余情报值,
+                    <br/>交通故障、发现绿装、幻力增强仅做<strong>提示</strong>，系统不会真正进行；
+                    进入下一天前必须得按过<strong>确认情报</strong>按钮（无论是否要处理情报）否则系统会提示，避免遗忘情报
+                </Alert>
                 {day <= 5?(
                     <div>
                         <Col sm={6}>
@@ -125,13 +164,14 @@ class Intelligence extends React.Component{
                             <Panel>
                                 <Panel.Heading>刺杀情报</Panel.Heading>
                                 <Panel.Body>
-                                    <Button className="infoButton">{Information.assassination[0].name}</Button>
-                                    <Button className="infoButton">{Information.assassination[1].name}</Button>
-                                    <Button className="infoButton">{Information.assassination[2].name}</Button>
+                                    <Button className="infoButton" onClick={this.assassination.bind(this,0)}>{Information.assassination[0].name}</Button>
+                                    <Button className="infoButton" onClick={this.assassination.bind(this,1)}>{Information.assassination[1].name}</Button>
+                                    <Button className="infoButton" onClick={this.assassination.bind(this,2)}>{Information.assassination[2].name}</Button>
                                 </Panel.Body>
                             </Panel>
                         </Col>
                         )}
+                        <Button id="sureIntelligence" bsStyle="success" onClick={this.sureIntelligence.bind(this)}>确认情报</Button>
                     </div>
                 ):<div>情报系统暂未开启</div>}
             </div>

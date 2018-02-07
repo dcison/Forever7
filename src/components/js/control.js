@@ -140,15 +140,285 @@ class Control extends React.Component{
             patrol: 0,
             build: 0,
             develop: 0,
-            hasPlus: false
+            hasPlus: false,
+            daily:[],
+            hero: null
         }
     }
     componentDidUpdate (){
-        let city = this.state.city
-        if (this.props.data.day == 5 && !city[2].hasOpen && !city[3].hasOpen){
-            city[2].blackcore = 2
-            city[3].blackcore = 2
-        }
+        let city = this.state.city,
+            daily = this.state.daily,
+            arr = this.state.mainArtifact,
+            hero = this.state.hero
+        if (!this.props.data.hasUpdate){
+            if (this.props.data.day == 5 && !city[2].hasOpen && !city[3].hasOpen){
+                city[2].blackcore = 2
+                city[3].blackcore = 2
+            }
+            if (this.props.data.day == 1 && !city[4].hasOpen){ 
+                city[4].blackcore = 2
+            }
+            if (hero != null && !this.props.data.ensureIntelligence){
+                if (!hero.hasHappen){
+                    window.alert(hero.name)
+                    switch(hero.city){
+                        case "港湾区":
+                            city[7].blackcore = 2
+                            break
+                        case "旧城区":
+                            city[6].blackcore = 2
+                            break
+                        case "海湾侧城":
+                            city[5].blackcore = 2
+                            break
+                    }
+                }
+            }
+            if (daily.length && !this.props.data.ensureIntelligence){
+                for (let i=0;i<daily.length;i++){
+                    if (!daily[i].hasHappen){
+                        daily[i].hasHappen = true
+                        window.alert('发生了' + daily[i].name + "事件")
+                        switch(daily[i].key){
+                            case 1:
+                                if(arr.length > 0){
+                                    arr.map((item) =>{
+                                        if (item.fatigue - 5 >= 0){
+                                            item.fatigue -= 5
+                                        }else{
+                                            item.fatigue = 0
+                                        }
+                                    })
+                                }                                
+                                break
+                            case 2:
+                                //  破建筑
+                                let num1 = Math.floor(Math.random() * 8),
+                                    current = city[num1]
+                                while (current.architecture.length == 0){
+                                    num1 = Math.floor(Math.random() * 8)
+                                    current = city[num1]
+                                }
+                                if (current.name == "中央庭" && current.architecture.length == 1){
+                                    window.alert("魔兽扑了个空")
+                                }else{
+                                    if( current.name == "中央庭" ){
+                                        num1 = Math.floor(Math.random() * current.architecture.length)
+                                        while( num1 == 0){
+                                            num1 = Math.floor(Math.random() * current.architecture.length)
+                                        }
+                                    }else{
+                                        num1 = Math.floor(Math.random() * current.architecture.length)
+                                    }
+                                    let flag = null,temp1,temp2,//temp1存放建筑物对象,temp2存放城市计算对象
+                                        flagA = false,flagB = false, //判断是否有特殊建筑
+                                        count = 0,times = 0//count 存放总值，times存放次数
+                                    BuildingList.technology.map((item) =>{
+                                        if (item.name == current.architecture[num1]){
+                                            flag = "tech"
+                                            temp1 = item
+                                        }
+                                    })
+                                    BuildingList.magic.map((item) =>{
+                                        if (item.name == current.architecture[num1]){
+                                            flag = "magic"
+                                            temp1 = item
+                                        }
+                                    })
+                                    BuildingList.intelligence.map((item) =>{
+                                        if (item.name == current.architecture[num1]){
+                                            flag = "info"
+                                            temp1 = item
+                                        }
+                                    })
+                                    BuildingList.special.map((item) =>{
+                                        if (item.name == current.architecture[num1]){
+                                            flag = "special"
+                                        }
+                                    })
+                                    if (!(flag == "special" || (flag == "tech" && temp1.name == "地下研究所"))){
+                                        switch(flag){
+                                            case "tech":
+                                                temp2 = this.props.data.tech - current.tech
+                                                window.alert(`摧毁了${current.name}的${current.architecture[num1]}`)
+                                                current.architecture.splice(num1,1)
+                                                if (current.architecture.indexOf("市立研究中心") != -1){
+                                                    flagA = true
+                                                }
+                                                if (current.architecture.indexOf("区立研究中心") != -1){
+                                                    flagB = true
+                                                }
+                                                for (let i=0;i<current.architecture.length;i++){
+                                                    switch (current.architecture[i]){
+                                                        case "中央庭基地":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "研究所":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "大型研究所":
+                                                            count += 10
+                                                            times ++
+                                                            break
+                                                        case "区立研究中心":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "市立研究中心":
+                                                            count += 15
+                                                            times ++
+                                                            break
+                                                        case "公共图书馆":
+                                                            count += this.state.artifact == null?30:this.state.artifact
+                                                            times ++
+                                                            break
+                                                    }
+                                                }                                                
+                                                if (flagB){
+                                                    count += times
+                                                }
+                                                if(flagA){
+                                                    count *= 1.5
+                                                }
+                                                current.tech = count
+                                                this.props.changeData(3, temp2 + count)
+                                                break
+                                            case "magic":
+                                                temp2 = this.props.data.magic - current.magic
+                                                window.alert(`摧毁了${current.name}的${current.architecture[num1]}`)
+                                                current.architecture.splice(num1,1)
+                                                if (current.architecture.indexOf("市立工程大厦") != -1){
+                                                    flagA = true
+                                                }
+                                                if (current.architecture.indexOf("区立工程大厦") != -1){
+                                                    flagB = true
+                                                }
+                                                for (let i=0;i<current.architecture.length;i++){
+                                                    switch (current.architecture[i]){
+                                                        case "中央庭基地":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "工程厅":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "大型工程厅":
+                                                            count += 10
+                                                            times ++
+                                                            break
+                                                        case "区立工程大厦":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "市立工程大厦":
+                                                            count += 15
+                                                            times ++
+                                                            break
+                                                        case "黑门监测站":
+                                                            count += this.state.artifact == null?30:this.state.artifact
+                                                            times ++
+                                                            break
+                                                    }
+                                                }                                                
+                                                if (flagB){
+                                                    count += times
+                                                }
+                                                if(flagA){
+                                                    count *= 1.5
+                                                }
+                                                current.magic = count
+                                                this.props.changeData(2, temp2 + count)
+                                                break
+                                            case "info":
+                                                temp2 = this.props.data.info - current.info
+                                                window.alert(`摧毁了${current.name}的${current.architecture[num1]}`)
+                                                current.architecture.splice(num1,1)
+                                                if (current.architecture.indexOf("市立情报局") != -1){
+                                                    flagA = true
+                                                }
+                                                if (current.architecture.indexOf("区立情报局") != -1){
+                                                    flagB = true
+                                                }
+                                                for (let i=0;i<current.architecture.length;i++){
+                                                    switch (current.architecture[i]){
+                                                        case "中央庭基地":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "情报局":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "大型情报局":
+                                                            count += 10
+                                                            times ++
+                                                            break
+                                                        case "区立情报局":
+                                                            count += 5
+                                                            times ++
+                                                            break
+                                                        case "市立情报局":
+                                                            count += 15
+                                                            times ++
+                                                            break
+                                                        case "情报中心":
+                                                            count += this.state.artifact == null?30:this.state.artifact
+                                                            times ++
+                                                            break
+                                                    }
+                                                }                                                
+                                                if (flagB){
+                                                    count += times
+                                                }
+                                                if(flagA){
+                                                    count *= 1.5
+                                                }
+                                                current.info = count
+                                                this.props.changeData(4, temp2 + count)
+                                                break
+                                        }
+                                    }
+                                }
+                                break
+                            case 3:
+                                if(arr.length > 0){
+                                    let num2 = Math.floor(Math.random() * arr.length)
+                                    arr[num2].fatigue = arr[num2].fatigue - 20 > 0?arr[num2].fatigue - 20:0
+                                }                                
+                                break
+                            case 4:
+                                //交通故障，仅做提示
+                                break
+                            case 5:
+                                //神秘绿装，仅做提示
+                                break
+                            case 6:
+                                //幻屏增强，仅做提示
+                                break
+                            case 7:
+                                if (arr.length>0){
+                                    arr.map((item) =>{
+                                        if (item.love - 5 >= 0){
+                                            item.love -= 5
+                                        }else{
+                                            item.love = 0
+                                        }
+                                    })
+                                }                                
+                                break
+                        }
+                    }
+                }
+            }
+            this.setState({
+                city: city,
+                mainArtifact: arr
+            })
+            this.props.changeData(8,true)            
+        }    
     }
     componentWillMount(){
         this.setState({
@@ -159,7 +429,55 @@ class Control extends React.Component{
         this.props.changeData(3,5)
         this.props.changeData(4,5)
     }
-    
+    getIntelligence(data,mode){//接受日常情报与希罗情报
+        if (!mode){//日常情报
+            if (data.length != 0){
+                data.map((item)=>{
+                    Object.assign(item,{ hasHappen: false})
+                })
+                this.setState({
+                    daily: data
+                })
+            }
+        }else{//希罗情报
+            if (data != null){
+                Object.assign(data,{ hasHappen: false} )
+                this.setState({
+                    hero: data
+                })
+            }else{
+                console.log("希罗事件解决")
+            }        
+        }
+        this.props.changeData(7,null)
+    }
+    getAssassination(data){
+        let node = ReactDom.findDOMNode(this),
+            city = this.state.city,
+            name = ""
+        if (city[data].blackcore == 2){
+            window.alert("成功收复该地区")
+            city[data].blackcore = 1
+            city[data].battle = 6
+            city[data].hasOpen = true
+            switch(data){
+                case 7:
+                    name = "#harbour"
+                    break
+                case 6:
+                    name = "#oldDown"
+                    break
+                case 5:
+                    name = "#bay"
+                    break
+            }
+            node.querySelector(name).disabled = false
+            node.querySelector(name).classList.remove("btn-warning")
+            node.querySelector(name).classList.add("btn-success")
+        }else{
+            window.alert("该地区黑核不在希罗手上哦")
+        }
+    }
     handleSelect(k){
         this.setState({
             currentKey: k,
@@ -463,12 +781,12 @@ class Control extends React.Component{
                         }    
                         this.props.changeData(5,this.props.data.ap - 2*temp)
                         this.props.addRecord(nameA,nameB,nameC,1,city.name,temp)
-                        if(city.name == "港湾区" && city.battle == 6){
-                            if (city.blackcore != 2){
-                                node.querySelector('#harbour').classList.remove('btn-danger')
-                                node.querySelector('#harbour').classList.add("btn-primary")
-                            }
-                        }
+                        // if(city.name == "港湾区" && city.battle == 6){
+                        //     if (city.blackcore != 2){
+                        //         node.querySelector('#harbour').classList.remove('btn-danger')
+                        //         node.querySelector('#harbour').classList.add("btn-primary")
+                        //     }
+                        // }
                         
                     }else{
                         window.alert("行动力不足")
@@ -781,8 +1099,8 @@ class Control extends React.Component{
                                             }
                                             break
                                     }
-                                    node.querySelector(id).classList.remove("btn-primary")
-                                    node.querySelector(id).classList.add("btn-success")
+                                    // node.querySelector(id).classList.remove("btn-primary")
+                                    // node.querySelector(id).classList.add("btn-success")
                                 }else{
                                     window.alert("无法进行黑核巡查（已获得或者被希罗得到）")
                                 }
@@ -2190,79 +2508,79 @@ class Control extends React.Component{
             arr = this.state.city
         if( index == 2 ){
             node.querySelector('#eastStreet').disabled = false
-            if (arr[3].blackcore != 2){
-                node.querySelector('#eastStreet').classList.add("btn-danger")
-            }            
-            if ( arr[3].hasOpen && arr[3].blackcore != 2){
-                node.querySelector('#centerDown').classList.remove("btn-danger")
-                node.querySelector('#centerDown').classList.add("btn-primary")
-            }
-            if (!arr[3].hasOpen){
-                node.querySelector('#highSchool').classList.remove("btn-danger")
-                node.querySelector('#highSchool').classList.add("btn-primary")
-            }       
+            // if (arr[3].blackcore != 2){
+            //     node.querySelector('#eastStreet').classList.add("btn-danger")
+            // }            
+            // if ( arr[3].hasOpen && arr[3].blackcore != 2){
+            //     node.querySelector('#centerDown').classList.remove("btn-danger")
+            //     node.querySelector('#centerDown').classList.add("btn-primary")
+            // }
+            // if (!arr[3].hasOpen){
+            //     node.querySelector('#highSchool').classList.remove("btn-danger")
+            //     node.querySelector('#highSchool').classList.add("btn-primary")
+            // }       
         }
         if ( index == 3){
             node.querySelector('#centerDown').disabled = false
-            if (arr[3].blackcore != 2){
-                node.querySelector('#centerDown').classList.add("btn-danger")
-            }
-            if ( arr[2].hasOpen && arr[2].blackcore != 2){
-                node.querySelector('#eastStreet').classList.remove("btn-danger")
-                node.querySelector('#eastStreet').classList.add("btn-primary")
-            }
-            if (!arr[2].hasOpen){
-                node.querySelector('#highSchool').classList.remove("btn-danger")
-                node.querySelector('#highSchool').classList.add("btn-primary")
-            }            
+            // if (arr[3].blackcore != 2){
+            //     node.querySelector('#centerDown').classList.add("btn-danger")
+            // }
+            // if ( arr[2].hasOpen && arr[2].blackcore != 2){
+            //     node.querySelector('#eastStreet').classList.remove("btn-danger")
+            //     node.querySelector('#eastStreet').classList.add("btn-primary")
+            // }
+            // if (!arr[2].hasOpen){
+            //     node.querySelector('#highSchool').classList.remove("btn-danger")
+            //     node.querySelector('#highSchool').classList.add("btn-primary")
+            // }            
         }
         if (index == 4 ){
             node.querySelector('#institute').disabled = false
-            if (arr[4].blackcore != 2){
-                node.querySelector('#institute').classList.add("btn-danger")
-            }
-            if (this.state.currentCity.name == "中央城区"){
-                if(arr[2].blackcore != 2){
-                    node.querySelector('#centerDown').classList.remove("btn-danger")
-                    node.querySelector('#centerDown').classList.add("btn-primary")
-                }
-            }
-            if (this.state.currentCity.name == "东方古街"){
-                if(arr[2].blackcore != 2){
-                    node.querySelector('#eastStreet').classList.remove("btn-danger")
-                    node.querySelector('#eastStreet').classList.add("btn-primary")
-                }
-            }
+            // if (arr[4].blackcore != 2){
+            //     node.querySelector('#institute').classList.add("btn-danger")
+            // }
+            // if (this.state.currentCity.name == "中央城区"){
+            //     if(arr[2].blackcore != 2){
+            //         node.querySelector('#centerDown').classList.remove("btn-danger")
+            //         node.querySelector('#centerDown').classList.add("btn-primary")
+            //     }
+            // }
+            // if (this.state.currentCity.name == "东方古街"){
+            //     if(arr[2].blackcore != 2){
+            //         node.querySelector('#eastStreet').classList.remove("btn-danger")
+            //         node.querySelector('#eastStreet').classList.add("btn-primary")
+            //     }
+            // }
         } 
         if (index == 5){
             node.querySelector('#bay').disabled = false
-            if (arr[5].blackcore != 2){
-                node.querySelector('#bay').classList.add("btn-danger")
-            }
-            if (arr[4].blackcore != 2){
-                node.querySelector('#institute').classList.remove("btn-danger")
-                node.querySelector('#institute').classList.add("btn-primary")
-            }
+            // if (arr[5].blackcore != 2){
+            //     node.querySelector('#bay').classList.add("btn-danger")
+            // }
+            // if (arr[4].blackcore != 2){
+            //     node.querySelector('#institute').classList.remove("btn-danger")
+            //     node.querySelector('#institute').classList.add("btn-primary")
+            // }
         }
         if (index == 6){
             node.querySelector('#oldDown').disabled = false
-            if (arr[5].blackcore != 2){
-                node.querySelector('#oldDown').classList.add("btn-danger")
-            }
-            if (arr[4].blackcore != 2){
-                node.querySelector('#bay').classList.remove("btn-danger")
-                node.querySelector('#bay').classList.add("btn-primary")
-            }
+            // if (arr[5].blackcore != 2){
+            //     node.querySelector('#oldDown').classList.add("btn-danger")
+            // }
+            // if (arr[4].blackcore != 2){
+            //     node.querySelector('#bay').classList.remove("btn-danger")
+            //     node.querySelector('#bay').classList.add("btn-primary")
+            // }
         }      
         if (index == 7){
             node.querySelector('#harbour').disabled = false
-            if (arr[5].blackcore != 2){
-                node.querySelector('#harbour').classList.add("btn-danger")
-            }
-            if (arr[4].blackcore != 2){
-                node.querySelector('#oldDown').classList.remove("btn-danger")
-                node.querySelector('#oldDown').classList.add("btn-primary")
-            }
+            // if (arr[5].blackcore != 2){
+            //     node.querySelector('#harbour').classList.add("btn-danger")
+            // }
+            // if (arr[4].blackcore != 2){
+            //     node.querySelector('#oldDown').classList.remove("btn-danger")
+            //     node.querySelector('#oldDown').classList.add("btn-primary")
+            // }
         }
         arr[index].hasOpen = true
         this.setState({
@@ -2460,7 +2778,25 @@ class Control extends React.Component{
         ), 
             finishText = null,
             needDevelop,
-            needPatrol
+            needPatrol,
+            className = []
+        for (let i = 1;i<8;i++){
+            switch(this.state.city[i].blackcore){
+                case 0:
+                    if (this.state.city[i].battle == 6){
+                        className[i] = "primary"
+                    }else{
+                        className[i] = "danger"
+                    }
+                    break
+                case 1:
+                    className[i] = "success"
+                    break
+                case 2:
+                    className[i] = "warning"
+                    break
+            }
+        }
         switch( this.state.currentCity.development ){
             case 0:
                 needDevelop = 10
@@ -2811,6 +3147,8 @@ class Control extends React.Component{
                         </h3>
                         <Intelligence 
                             data={this.props.data}
+                            getIntelligence={this.getIntelligence.bind(this)}
+                            getAssassination={this.getAssassination.bind(this)}
                         />
                     </Col>
                     <Col sm={12}>
@@ -2822,18 +3160,17 @@ class Control extends React.Component{
                             <strong style={{'color': 'green'}}>绿色</strong>表示黑核已回收；
                             <strong style={{'color': 'red'}}>红色</strong>表示待战斗或该区域已clear但是未开启下一区域；
                             <strong style={{'color': 'blue'}}>蓝色</strong>表示该区域已clear但是未回收黑核； 
-                            <strong style={{'color': 'orange'}}>橙色</strong>表示该区域黑核已被希罗获取；
-                            <strong style={{'color': 'grey'}}>灰色</strong>表示未开放战斗
+                            <strong style={{'color': 'orange'}}>橙色</strong>表示该区域黑核已被希罗获取
                         </Alert>
                         <ButtonToolbar onClick={(e)=>{this.handleClick(e)}}>
                             <Button bsStyle="success" >中央庭</Button>
-                            <Button id="highSchool" bsStyle="danger">高校学园</Button>
-                            <Button bsStyle={this.state.city[2].blackcore==2?"warning":"default"} id="eastStreet" disabled>东方古街</Button>
-                            <Button bsStyle={this.state.city[3].blackcore==2?"warning":"default"} id="centerDown" disabled>中央城区</Button>
-                            <Button bsStyle={this.state.city[4].blackcore==2?"warning":"default"} id="institute" disabled>研究所</Button>
-                            <Button bsStyle={this.state.city[5].blackcore==2?"warning":"default"} id="bay" disabled>海湾侧城</Button>
-                            <Button bsStyle={this.state.city[6].blackcore==2?"warning":"default"} id="oldDown" disabled>旧城区</Button>
-                            <Button bsStyle={this.state.city[7].blackcore==2?"warning":"default"} id="harbour" disabled>港湾区</Button>
+                            <Button bsStyle={className[1]} id="highSchool">高校学园</Button>
+                            <Button bsStyle={className[2]} id="eastStreet" disabled>东方古街</Button>
+                            <Button bsStyle={className[3]} id="centerDown" disabled>中央城区</Button>
+                            <Button bsStyle={className[4]} id="institute" disabled>研究所</Button>
+                            <Button bsStyle={className[5]} id="bay" disabled>海湾侧城</Button>
+                            <Button bsStyle={className[6]} id="oldDown" disabled>旧城区</Button>
+                            <Button bsStyle={className[7]} id="harbour" disabled>港湾区</Button>
                         </ButtonToolbar>
                     </Col>
                     <Col sm={12} id="cityShow">

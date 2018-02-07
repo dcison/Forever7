@@ -223,41 +223,41 @@ export const ArtifactList = [{ //神器使数量为43
 ]
 
 export const Information = {
-    daily:[//日常的随机情报
-        {
-            name: "流言蜚语",
-            need: 35,
-            affect: 5
-        },
+    daily:[//日常的随机情报        
         {
             name: "流感肆虐",
             need: 45,
-            affect: 5
+            key: 1
         },
         {
             name: "不稳定黑门",
             need: 15,
-            affect: 1
+            key: 2
         },
         {
             name: "魔兽的报复",
             need: 30,
-            affect: 20
+            key: 3
         },
         {
             name: "交通故障",
             need: 10,
-            affect: 6
+            key: 4
         },
         {
             name: "神秘影(绿)装",
             need: 20,
-            affect: 0
+            key: 5
         },
         {
             name: "幻力屏障增强",
             need: 45,
-            affect: 0
+            key: 6
+        },
+        {
+            name: "流言蜚语",
+            need: 35,
+            key: 7
         }
     ],
     hero:[//希罗夺取黑核情报
@@ -277,7 +277,7 @@ export const Information = {
             need: 60
         }
     ],
-    assassination:[//刺杀情报
+    assassination:[//突袭情报
         {
             name: "突袭港湾区",
             city: "港湾区",

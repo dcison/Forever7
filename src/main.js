@@ -13,16 +13,19 @@ class Main extends React.Component{
   constructor(props){
       super(props)
       this.state = {
-          day: 5, //初始第七天
+          day: 7, //初始第七天
           magic: 0, //幻力起始为5
           tech: 0, //科技起始5
           info: 0, //情报初始5
           ap:24, //行动力24点          
           patrol: 0, //今日巡查次数0
-          record: [<strong style={{"color":"green"}}>第7天</strong>]
+          record: [<strong style={{"color":"green"}}>第7天</strong>],
+          hasUpdate: false,
+          ensureIntelligence: false
       }
   }
-  changeData(choice,data){ //choice选择要改变的选项，data为改变的值,1-6分别对应天，幻力，科技，情报，行动力，巡查次数
+  changeData(choice,data){ 
+    //choice选择要改变的选项，data为改变的值,1-6分别对应天，幻力，科技，情报，行动力，巡查次数,7为确认情报
     switch(choice){
       case 1:
         let arr = this.state.record
@@ -57,6 +60,14 @@ class Main extends React.Component{
           patrol: data
         })
         break
+      case 7:
+        this.setState({
+          ensureIntelligence: !this.state.ensureIntelligence
+        })
+      case 8:
+        this.setState({
+          hasUpdate: data
+        })
     }
   }
   addRemarks(count){
