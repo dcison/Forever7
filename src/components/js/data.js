@@ -149,20 +149,75 @@ export const BuildingList = {
             premise: 30
         },
         {
+            name: "潜水艇", //这个忘了，先设定跟急救中心一样需求科技>30
+            key: 7,
+            build: 30,
+            premise: 30
+        },
+        {
             name: "烟花祭",
             key: 8,
             build: 22,
             premise: 30
+        },
+        {
+            name: "方舟",
+            key: 9,
+            build: 30,
+            premise: 50
         }
     ]
 
 }
-export const ArtifactList = [{ //神器使数量为43
+export const ArtifactList = [
+    {
+        name: "璃璃子",
+        patrol: 1,
+        build: 12,
+        develop: 5,
+        sex: 1 //1为女，0为男,未定为null，比如镜音、机器人等
+    },
+    {
+        name: "尤梨",
+        patrol: 3,
+        build: 8,
+        develop: 6,
+        sex: 1 
+    },
+    {
+        name: "柯路诺",
+        patrol: 8,
+        build: 3,
+        develop: 6,
+        sex: 0 
+    },
+    {
+        name: "菲尼克",
+        patrol: 5,
+        build: 1,
+        develop: 12,
+        sex: 0
+    },
+    {
+        name: "零",
+        patrol: 11,
+        build: 1,
+        develop: 5,
+        sex: 1
+    },
+    {
+        name: "拉比",
+        patrol: 4,
+        build: 7,
+        develop: 6,
+        sex: 0
+    },
+    { 
         name: "初音未来",
         patrol: 12,
         build: 1,
         develop: 5,
-        sex: 1 //1为女，0为男,未定为null，比如镜音、机器人等
+        sex: 1 
     },
     {
         name: "巡音流歌",
@@ -219,6 +274,230 @@ export const ArtifactList = [{ //神器使数量为43
         build: 14,
         develop: 6,
         sex: 1
+    },
+    {
+        name: "丽",
+        patrol: 4,
+        build: 3,
+        develop: 10,
+        sex: 1
+    },
+    {
+        name: "泰丝拉",
+        patrol: 4,
+        build: 3,
+        develop: 10,
+        sex: 1
+    },
+    {
+        name: "羽弥",
+        patrol: 6,
+        build: 9,
+        develop: 1,
+        sex: 1
+    },
+    {
+        name: "乌鹭",
+        patrol: 4,
+        build: 7,
+        develop: 4,
+        sex: 0
+    },
+    {
+        name: "幽桐",
+        patrol: 2,
+        build: 6,
+        develop: 9,
+        sex: 0
+    },
+    {
+        name: "虎彻",
+        patrol: 3,
+        build: 7,
+        develop: 5,
+        sex: 0
+    },
+    {
+        name: "夏狩",
+        patrol: 2,
+        build: 7,
+        develop: 6,
+        sex: 0
+    },
+    {
+        name: "妮维",
+        patrol: 7,
+        build: 4,
+        develop: 4,
+        sex: 1
+    },
+    {
+        name: "阿岚",
+        patrol: 5,
+        build: 3,
+        develop: 8,
+        sex: 0
+    },
+    {
+        name: "雯梓",
+        patrol: 3,
+        build: 5,
+        develop: 7,
+        sex: 1
+    },
+    {
+        name: "钟函谷",
+        patrol: 5,
+        build: 12,
+        develop: 1,
+        sex: 0
+    },
+    {
+        name: "璐璐",
+        patrol: 5,
+        build: 7,
+        develop: 5,
+        sex: 1
+    },
+    {
+        name: "巫殷",
+        patrol: 7,
+        build: 4,
+        develop: 4,
+        sex: 1
+    },
+    {
+        name: "巴裘拉",
+        patrol: 7,
+        build: 4,
+        develop: 4,
+        sex: 0
+    },
+    {
+        name: "奥露西娅",
+        patrol: 10,
+        build: 4,
+        develop: 3,
+        sex: 1
+    },
+    {
+        name: "穆娅",
+        patrol: 2,
+        build: 5,
+        develop: 9,
+        sex: 1
+    },
+    {
+        name: "西比尔",
+        patrol: 2,
+        build: 10,
+        develop: 4,
+        sex: 1
+    },
+    {
+        name: "伽梨耶",
+        patrol: 4,
+        build: 4,
+        develop: 7,
+        sex: 1
+    },
+    {
+        name: "赛斯",
+        patrol: 7,
+        build: 4,
+        develop: 4,
+        sex: 0
+    },
+    {
+        name: "芙罗拉",
+        patrol: 2,
+        build: 10,
+        develop: 5,
+        sex: 1
+    },
+    {
+        name: "达尔维拉",
+        patrol: 10,
+        build: 2,
+        develop: 5,
+        sex: 0
+    },
+    {
+        name: "莱奥斯",
+        patrol: 9,
+        build: 3,
+        develop: 4,
+        sex: null
+    },
+    {
+        name: "艾露比",
+        patrol: 6,
+        build: 6,
+        develop: 4,
+        sex: 1
+    },
+    {
+        name: "达格",
+        patrol: 9,
+        build: 3,
+        develop: 4,
+        sex: 0
+    },
+    {
+        name: "爱缪莎",
+        patrol: 1,
+        build: 5,
+        develop: 12,
+        sex: 1
+    },
+    {
+        name: "晏华",
+        patrol: 1,
+        build: 8,
+        develop: 8,
+        sex: 0
+    },
+    {
+        name: "瞬",
+        patrol: 9,
+        build: 3,
+        develop: 4,
+        sex: 1
+    },
+    {
+        name: "米菈",
+        patrol: 9,
+        build: 4,
+        develop: 3,
+        sex: 1
+    },
+    {
+        name: "千藻诗歌",
+        patrol: 3,
+        build: 4,
+        develop: 9,
+        sex: 1
+    },
+    {
+        name: "赛哈姆",
+        patrol: 5,
+        build: 3,
+        develop: 9,
+        sex: 1
+    },
+    {
+        name: "李若胤",
+        patrol: 5,
+        build: 6,
+        develop: 5,
+        sex: 0
+    },
+    {
+        name: "罗纳克",
+        patrol: 2,
+        build: 10,
+        develop: 5,
+        sex: 0
     }
 ]
 

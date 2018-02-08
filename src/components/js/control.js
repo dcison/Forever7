@@ -250,6 +250,10 @@ class Control extends React.Component{
                                                 }
                                                 for (let i=0;i<current.architecture.length;i++){
                                                     switch (current.architecture[i]){
+                                                        case "方舟":
+                                                            count += 5
+                                                            times ++
+                                                            break
                                                         case "中央庭基地":
                                                             count += 5
                                                             times ++
@@ -297,6 +301,10 @@ class Control extends React.Component{
                                                 }
                                                 for (let i=0;i<current.architecture.length;i++){
                                                     switch (current.architecture[i]){
+                                                        case "方舟":
+                                                            count += 5
+                                                            times ++
+                                                            break
                                                         case "中央庭基地":
                                                             count += 5
                                                             times ++
@@ -445,9 +453,7 @@ class Control extends React.Component{
                 this.setState({
                     hero: data
                 })
-            }else{
-                console.log("希罗事件解决")
-            }        
+            }      
         }
         this.props.changeData(7,null)
     }
@@ -457,6 +463,8 @@ class Control extends React.Component{
             name = ""
         if (city[data].blackcore == 2){
             window.alert("成功收复该地区")
+            this.props.changeData(2,this.props.data.magic) //刷新下面的记录用
+            this.props.addRecord(null,null,null,7,null,city[data].name)
             city[data].blackcore = 1
             city[data].battle = 6
             city[data].hasOpen = true
@@ -509,7 +517,7 @@ class Control extends React.Component{
 	}
 	handleSetArtifactChange(e) {
 		this.setState({ 
-            artifact: e.target.value 
+            artifact: parseInt(e.target.value)
         })
     }
     handleSetMainArtifactChange(e){
@@ -562,6 +570,23 @@ class Control extends React.Component{
         this.setState({
             mainArtifact: arr
         })        
+    }
+    recoverSpecial(){
+        let city = this.state.city
+        if (city[2].blackcore == 2 && city[3].blackcore == 2){
+            city[2].blackcore = 1
+            city[3].blackcore = 1
+            this.setState({
+                city: city
+            })
+        }else if (city[4].blackcore == 2){
+            city[4].blackcore = 1
+            this.setState({
+                city: city
+            })
+        }else {
+            window.alert("该三个地区的黑核不在希罗手上哦")
+        }
     }
     recoverArtifact(e){
         let node = e.target,
@@ -841,7 +866,7 @@ class Control extends React.Component{
                                 temp = 4
                                 arr.map((item,index) => {
                                     if(item.name == nameA){
-                                        if ( ( item.sex && woman ) || (!item.sex && man) ){
+                                        if ( ( item.sex && woman ) || ( item.sex == 0 && man) ){
                                             temp = 5
                                         }
                                         if (item.love + temp > 100){
@@ -855,7 +880,7 @@ class Control extends React.Component{
                                         item.fatigue -= 5                    
                                     }
                                     if(item.name == nameB){
-                                        if ( ( item.sex && woman ) || (!item.sex && man) ){
+                                        if ( ( item.sex && woman ) || (!item.sex == 0 && man) ){
                                             temp = 5
                                         }
                                         if (item.love + temp > 100){
@@ -869,7 +894,7 @@ class Control extends React.Component{
                                         item.fatigue -= 5                    
                                     }
                                     if(item.name == nameC){
-                                        if ( ( item.sex && woman ) || (!item.sex && man) ){
+                                        if ( ( item.sex && woman ) || (!item.sex == 0 && man) ){
                                             temp = 5
                                         }
                                         if (item.love + temp > 100){
@@ -1105,8 +1130,8 @@ class Control extends React.Component{
                                     window.alert("无法进行黑核巡查（已获得或者被希罗得到）")
                                 }
                                 break
-                            case "主线巡查":
-                                temp = "主线巡查"
+                            case "任务巡查":
+                                temp = "任务巡查"
                                 this.props.changeData( 5,this.props.data.ap - 2 )
                                 this.props.changeData( 6,this.props.data.patrol + 1 )
                                 this.props.addRecord( nameA,nameB,nameC,2,city.name,temp )
@@ -1274,7 +1299,7 @@ class Control extends React.Component{
                                                     city.architecture.push(building.name)
                                                     count = 5
                                                     for (let i = 0;i<city.architecture.length;i++){
-                                                        if (city.architecture[i] == "中央庭基地" || city.architecture[i] == "研究所" || city.architecture[i] == "大型研究所" || city.architecture[i] == "区立研究中心" || city.architecture[i] == "市立研究中心" || city.architecture[i] == "公共图书馆"){
+                                                        if (city.architecture[i] == "方舟" || city.architecture[i] == "中央庭基地" || city.architecture[i] == "研究所" || city.architecture[i] == "大型研究所" || city.architecture[i] == "区立研究中心" || city.architecture[i] == "市立研究中心" || city.architecture[i] == "公共图书馆"){
                                                             count += 1
                                                         }
                                                     }
@@ -1605,7 +1630,7 @@ class Control extends React.Component{
                                                     city.architecture.push(building.name)
                                                     count = 5
                                                     for (let i = 0;i<city.architecture.length;i++){
-                                                        if (city.architecture[i] == "中央庭基地" || city.architecture[i] == "工程厅" || city.architecture[i] == "大型工程厅" || city.architecture[i] == "区立工程大厦" || city.architecture[i] == "市立工程大厦" || city.architecture[i] == "黑门监测站"){
+                                                        if (city.architecture[i] == "方舟" || city.architecture[i] == "中央庭基地" || city.architecture[i] == "工程厅" || city.architecture[i] == "大型工程厅" || city.architecture[i] == "区立工程大厦" || city.architecture[i] == "市立工程大厦" || city.architecture[i] == "黑门监测站"){
                                                             count += 1
                                                         }
                                                     }
@@ -2398,6 +2423,80 @@ class Control extends React.Component{
                                             window.alert("科技不足")
                                         }
                                         break
+                                    case 9:
+                                        if (building.premise <= this.props.data.tech){
+                                            if (city.architecture.length < city.development + 4 ){
+                                                flag = false
+                                                count = 0
+                                                city.architecture.map((item)=>{
+                                                    if (item == "区立研究中心"){
+                                                        flag = true
+                                                    }
+                                                })
+                                                city.architecture.push(building.name)
+                                                if(flag){
+                                                    count = 6
+                                                }else{
+                                                    count = 5
+                                                }
+                                                flag = false
+                                                city.architecture.map((item)=>{
+                                                    if (item == "市立研究中心"){
+                                                        flag = true
+                                                    }
+                                                })
+                                                if (flag){
+                                                    count *= 1.5
+                                                }
+                                                city.tech += count
+                                                this.props.changeData(3,this.props.data.tech + count)
+                                                //幻力
+                                                flag = false
+                                                count = 0
+                                                city.architecture.map((item)=>{
+                                                    if (item == "区立工程大厦"){
+                                                        flag = true
+                                                    }
+                                                })
+                                                if(flag){
+                                                    count = 6
+                                                }else{
+                                                    count = 5
+                                                }
+                                                flag = false
+                                                city.architecture.map((item)=>{
+                                                    if (item == "市立工程大厦"){
+                                                        flag = true
+                                                    }
+                                                })
+                                                if (flag){
+                                                    count *= 1.5
+                                                }
+                                                city.magic += count
+                                                this.props.changeData(2,this.props.data.magic + count)
+                                                this.props.changeData(5,this.props.data.ap - 2)
+                                                this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
+                                                build = true
+                                                flag = false
+                                                for (let i = 0;i < 8;i++){
+                                                    for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                        if (cityList[i].architecture[j] == "地下研究所"){
+                                                            flag = true
+                                                            temp = i
+                                                            break
+                                                        }
+                                                    }
+                                                }
+                                                if ( flag ){
+                                                    cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                                }
+                                            }else{
+                                                window.alert("建筑物已满")
+                                            }
+                                        }else{
+                                            window.alert("科技不足")
+                                        }
+                                        break
                                 }
                                 break
                         }
@@ -2616,7 +2715,7 @@ class Control extends React.Component{
         }
         if ( flagA && flagB && flagC){
             let flag = true
-            switch(mode){//1表示日常巡查，2表示黑核巡查，3表示主线巡查
+            switch(mode){//1表示日常巡查，2表示黑核巡查，3表示任务巡查
                 case 1:
                     temp = "日常巡查"
                     break
@@ -2624,7 +2723,7 @@ class Control extends React.Component{
                     temp = "黑核巡查"
                     break
                 case 3:
-                    temp = "主线巡查"
+                    temp = "任务巡查"
                     break
             }
             if (flag){
@@ -2749,21 +2848,24 @@ class Control extends React.Component{
                             type="text"
                             placeholder="请输入神器使A名字"
                             ref="artifactA" 
-                            className="controlInput"                         
+                            className="controlInput"
+                            defaultValue="璐璐"                        
                         />   
                         <ControlLabel>神器使B</ControlLabel>
                         <FormControl
                             type="text"
                             placeholder="请输入神器使B名字"
                             ref="artifactB"  
-                            className="controlInput"                            
+                            className="controlInput"  
+                            defaultValue="白"                           
                         /> 
                         <ControlLabel>神器使C</ControlLabel>
                         <FormControl
                             type="text"
                             placeholder="请输入神器使C名字"
                             ref="artifactC"     
-                            className="controlInput"                       
+                            className="controlInput"  
+                            defaultValue="薇拉"                      
                         />
                         <ControlLabel>操作内容</ControlLabel>
                         <FormControl
@@ -2955,26 +3057,29 @@ class Control extends React.Component{
                                 type="text"
                                 placeholder="请输入神器使A名字"
                                 ref="artifactA" 
-                                className="controlInput"                         
+                                className="controlInput"
+                                defaultValue="璐璐"                         
                             />   
                             <ControlLabel>神器使B</ControlLabel>
                             <FormControl
                                 type="text"
                                 placeholder="请输入神器使B名字"
                                 ref="artifactB"  
-                                className="controlInput"                            
+                                className="controlInput" 
+                                defaultValue="白"                           
                             /> 
                             <ControlLabel>神器使C</ControlLabel>
                             <FormControl
                                 type="text"
                                 placeholder="请输入神器使C名字"
                                 ref="artifactC"     
-                                className="controlInput"                       
+                                className="controlInput"
+                                defaultValue="薇拉"                      
                             />
                             <ButtonToolbar className="patrolButton">
                                 <Button bsStyle="info" onClick={(e) => this.patrol(e,1)} >日常巡查</Button>
                                 <Button bsStyle="warning" onClick={(e) => this.patrol(e,2)} >黑核回收</Button>
-                                <Button bsStyle="success" onClick={(e) => this.patrol(e,3)} >主线相关</Button>
+                                <Button bsStyle="success" onClick={(e) => this.patrol(e,3)} >任务巡查</Button>
                             </ButtonToolbar>  
                         </FormGroup>
                     </Form>
@@ -3007,21 +3112,24 @@ class Control extends React.Component{
                                 type="text"
                                 placeholder="请输入神器使A名字"
                                 ref="artifactA" 
-                                className="controlInput"                         
+                                className="controlInput"
+                                defaultValue="璐璐"                         
                             />   
                             <ControlLabel>神器使B</ControlLabel>
                             <FormControl
                                 type="text"
                                 placeholder="请输入神器使B名字"
                                 ref="artifactB"  
-                                className="controlInput"                            
+                                className="controlInput"
+                                defaultValue="白"                            
                             /> 
                             <ControlLabel>神器使C</ControlLabel>
                             <FormControl
                                 type="text"
                                 placeholder="请输入神器使C名字"
                                 ref="artifactC"     
-                                className="controlInput"                       
+                                className="controlInput" 
+                                defaultValue="薇拉"                       
                             />
                             <DropdownButton bsStyle="primary" id="buildingType" title={this.state.buildingType} onSelect={ (key) => this.handleBuildingSelect(key) }>
                                 <MenuItem eventKey="1">科技类</MenuItem>
@@ -3149,6 +3257,8 @@ class Control extends React.Component{
                             data={this.props.data}
                             getIntelligence={this.getIntelligence.bind(this)}
                             getAssassination={this.getAssassination.bind(this)}
+                            recoverSpecial={this.recoverSpecial.bind(this)}
+                            changeData={this.props.changeData.bind(this)}
                         />
                     </Col>
                     <Col sm={12}>
@@ -3205,7 +3315,7 @@ class Control extends React.Component{
                                     神器使：<strong>必填项</strong>，神器使A,B,C设置成上方<strong>主神器使</strong>的名字用于记录好感、疲劳等信息，设置<strong>非主神器使</strong>不会记录其信息，设置次序不要紧，但请不要重复！！！
                                     <br />操作内容：<strong>必填项</strong>，如果是战斗、巡查、开发请填次数（注意上限），如果是建设请填建筑物名称；
                                     <br /><strong>战斗</strong>完之后才能进行<strong>巡查等</strong>后续城市活动
-                                    <br />巡查: 日常巡查：三个巡查方式中只有<strong>日常巡查</strong>会减少主神器使（如果有设置的话）疲劳，日常巡查增加主神器使好感，主线巡查关：只<strong>记录</strong>做过了主线，没有别的功能，黑核巡查：如果未做黑核前置工作，系统将自动<strong>完成</strong>
+                                    <br />巡查: 日常巡查：三个巡查方式中只有<strong>日常巡查</strong>会减少主神器使（如果有设置的话）疲劳，日常巡查增加主神器使好感，任务巡查：只<strong>记录</strong>，没有别的功能，可通过备注详细什么任务，黑核巡查：如果未做黑核前置工作，系统将自动<strong>完成</strong>
                                     <br />神器使能力值说明：每个人神器使的能力值不一定都提升过，这里用的是神器使的初始能力值，仅作为参考，当能力值不足开发、建设时，提示框变为<strong>黄色</strong>，否则为<strong>绿色</strong>，系统仅做提示，不做<strong>阻止</strong>功能。       <br /><strong>宅</strong>选项仅在中央庭有效!
                                 </Alert>
                                 {currentChoice}
