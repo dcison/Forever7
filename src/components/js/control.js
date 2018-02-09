@@ -875,7 +875,11 @@ class Control extends React.Component{
                                             item.love += temp
                                         }     
                                         if (party){
-                                            item.fatigue += 25
+                                            if (item.fatigue + 25 > 100){
+                                                item.fatigue = 100
+                                            }else{
+                                                item.fatigue += temp
+                                            }
                                         } 
                                         item.fatigue -= 5                    
                                     }
@@ -1184,7 +1188,22 @@ class Control extends React.Component{
                             case "科技类":
                                 switch (building.key){
                                     case 1:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 count = 0
@@ -1234,7 +1253,22 @@ class Control extends React.Component{
                                         }
                                         break
                                     case 2:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 count = 0
@@ -1515,7 +1549,22 @@ class Control extends React.Component{
                             case "幻力类":
                                 switch (building.key){
                                     case 1:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 count = 0
@@ -1565,7 +1614,22 @@ class Control extends React.Component{
                                         }
                                         break
                                     case 2:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 count = 0
@@ -1823,7 +1887,22 @@ class Control extends React.Component{
                             case "情报类":
                                 switch (building.key){
                                     case 1:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 city.architecture.map((item)=>{
@@ -1872,7 +1951,22 @@ class Control extends React.Component{
                                         }
                                         break
                                     case 2:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 flag = false
                                                 city.architecture.map((item)=>{
@@ -2136,7 +2230,22 @@ class Control extends React.Component{
                                             }
                                         })
                                         if (!flag){
-                                            if (building.premise <= this.props.data.tech){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
+                                                }
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }else{
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
                                                 if (city.architecture.length < city.development + 4 ){
                                                     city.architecture.push(building.name)
                                                     this.props.changeData(5,this.props.data.ap - 2)
@@ -2174,7 +2283,22 @@ class Control extends React.Component{
                                             }
                                         })
                                         if(!flag){
-                                            if (building.premise <= this.props.data.tech){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
+                                                }
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }else{
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
                                                 if (city.architecture.length < city.development + 4 ){
                                                     city.architecture.push(building.name)
                                                     this.props.changeData(5,this.props.data.ap - 2)
@@ -2204,7 +2328,22 @@ class Control extends React.Component{
                                         }                               
                                         break
                                     case 3:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 count = 0
                                                 for (let i = 0;i < 8;i++){
@@ -2246,7 +2385,22 @@ class Control extends React.Component{
                                         }
                                         break
                                     case 4:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                            }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 count = 0
                                                 for (let i = 0;i < 8;i++){
@@ -2288,7 +2442,22 @@ class Control extends React.Component{
                                         }
                                         break
                                     case 5:
-                                        if (building.premise <= this.props.data.tech){
+                                        flag = false 
+                                        city.architecture.map((item)=>{
+                                            if (item == "地下研究所"){
+                                                flag = true
+                                            }
+                                        })
+                                        if (flag){
+                                            if (building.premise - 25 <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }else{
+                                            if (building.premise <= this.props.data.tech){
+                                                enoughPremis = true
+                                            }
+                                        }
+                                        if ( enoughPremis ){
                                             if (city.architecture.length < city.development + 4 ){
                                                 count = 0
                                                 for (let i = 0;i < 8;i++){
@@ -2340,7 +2509,22 @@ class Control extends React.Component{
                                             }
                                         }
                                         if(!flag){
-                                            if (building.premise <= this.props.data.tech){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
+                                                }
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }else{
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
                                                 if (city.architecture.length < city.development + 4 ){
                                                     city.architecture.push(building.name)
                                                     this.props.changeData(5,this.props.data.ap - 2)
@@ -2370,132 +2554,216 @@ class Control extends React.Component{
                                         }                                
                                         break
                                     case 7:
-                                        if (building.premise <= this.props.data.tech){
-                                            if (city.architecture.length < city.development + 4 ){
-                                                city.architecture.push(building.name)
-                                                this.props.changeData(5,this.props.data.ap - 2)
-                                                this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
-                                                build = true
-                                                flag = false
-                                                for (let i = 0;i < 8;i++){
-                                                    for (let j = 0;j < cityList[i].architecture.length;j++){
-                                                        if (cityList[i].architecture[j] == "地下研究所"){
-                                                            flag = true
-                                                            temp = i
-                                                            break
-                                                        }
-                                                    }
+                                        flag = false
+                                        for (let i = 0;i < 8;i++){
+                                            for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                if (cityList[i].architecture[j] == "潜水艇"){
+                                                    flag = true
+                                                    break
                                                 }
-                                                if ( flag ){
-                                                    cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                            }
+                                        }
+                                        if (!flag){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
+                                                }
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
                                                 }
                                             }else{
-                                                window.alert("建筑物已满")
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
+                                                if (city.architecture.length < city.development + 4 ){
+                                                    city.architecture.push(building.name)
+                                                    this.props.changeData(5,this.props.data.ap - 2)
+                                                    this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
+                                                    build = true
+                                                    flag = false
+                                                    for (let i = 0;i < 8;i++){
+                                                        for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                            if (cityList[i].architecture[j] == "地下研究所"){
+                                                                flag = true
+                                                                temp = i
+                                                                break
+                                                            }
+                                                        }
+                                                    }
+                                                    if ( flag ){
+                                                        cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                                    }
+                                                }else{
+                                                    window.alert("建筑物已满")
+                                                }
+                                            }else{
+                                                window.alert("科技不足")
                                             }
                                         }else{
-                                            window.alert("科技不足")
+                                            window.alert("已建过该建筑")
                                         }
                                         break
                                     case 8:
-                                        if (building.premise <= this.props.data.tech){
-                                            if (city.architecture.length < city.development + 4 ){
-                                                city.architecture.push(building.name)
-                                                this.props.changeData(5,this.props.data.ap - 2)
-                                                this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
-                                                build = true
-                                                flag = false
-                                                for (let i = 0;i < 8;i++){
-                                                    for (let j = 0;j < cityList[i].architecture.length;j++){
-                                                        if (cityList[i].architecture[j] == "地下研究所"){
-                                                            flag = true
-                                                            temp = i
-                                                            break
-                                                        }
-                                                    }
+                                        flag = false
+                                        for (let i = 0;i < 8;i++){
+                                            for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                if (cityList[i].architecture[j] == "烟花祭"){
+                                                    flag = true
+                                                    break
                                                 }
-                                                if ( flag ){
-                                                    cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                            }
+                                        }
+                                        if (!flag){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
+                                                }
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
                                                 }
                                             }else{
-                                                window.alert("建筑物已满")
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
+                                                if (city.architecture.length < city.development + 4 ){
+                                                    city.architecture.push(building.name)
+                                                    this.props.changeData(5,this.props.data.ap - 2)
+                                                    this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
+                                                    build = true
+                                                    flag = false
+                                                    for (let i = 0;i < 8;i++){
+                                                        for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                            if (cityList[i].architecture[j] == "地下研究所"){
+                                                                flag = true
+                                                                temp = i
+                                                                break
+                                                            }
+                                                        }
+                                                    }
+                                                    if ( flag ){
+                                                        cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                                    }
+                                                }else{
+                                                    window.alert("建筑物已满")
+                                                }
+                                            }else{
+                                                window.alert("科技不足")
                                             }
                                         }else{
-                                            window.alert("科技不足")
-                                        }
+                                            window.alert("已建过该建筑")
+                                        }                                       
                                         break
                                     case 9:
-                                        if (building.premise <= this.props.data.tech){
-                                            if (city.architecture.length < city.development + 4 ){
-                                                flag = false
-                                                count = 0
-                                                city.architecture.map((item)=>{
-                                                    if (item == "区立研究中心"){
-                                                        flag = true
-                                                    }
-                                                })
-                                                city.architecture.push(building.name)
-                                                if(flag){
-                                                    count = 6
-                                                }else{
-                                                    count = 5
+                                        flag = false
+                                        for (let i = 0;i < 8;i++){
+                                            for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                if (cityList[i].architecture[j] == "方舟"){
+                                                    flag = true
+                                                    break
                                                 }
-                                                flag = false
-                                                city.architecture.map((item)=>{
-                                                    if (item == "市立研究中心"){
-                                                        flag = true
-                                                    }
-                                                })
-                                                if (flag){
-                                                    count *= 1.5
+                                            }
+                                        }
+                                        if (!flag){
+                                            flag = false 
+                                            city.architecture.map((item)=>{
+                                                if (item == "地下研究所"){
+                                                    flag = true
                                                 }
-                                                city.tech += count
-                                                this.props.changeData(3,this.props.data.tech + count)
-                                                //幻力
-                                                flag = false
-                                                count = 0
-                                                city.architecture.map((item)=>{
-                                                    if (item == "区立工程大厦"){
-                                                        flag = true
-                                                    }
-                                                })
-                                                if(flag){
-                                                    count = 6
-                                                }else{
-                                                    count = 5
-                                                }
-                                                flag = false
-                                                city.architecture.map((item)=>{
-                                                    if (item == "市立工程大厦"){
-                                                        flag = true
-                                                    }
-                                                })
-                                                if (flag){
-                                                    count *= 1.5
-                                                }
-                                                city.magic += count
-                                                this.props.changeData(2,this.props.data.magic + count)
-                                                this.props.changeData(5,this.props.data.ap - 2)
-                                                this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
-                                                build = true
-                                                flag = false
-                                                for (let i = 0;i < 8;i++){
-                                                    for (let j = 0;j < cityList[i].architecture.length;j++){
-                                                        if (cityList[i].architecture[j] == "地下研究所"){
-                                                            flag = true
-                                                            temp = i
-                                                            break
-                                                        }
-                                                    }
-                                                }
-                                                if ( flag ){
-                                                    cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                            })
+                                            if (flag){
+                                                if (building.premise - 25 <= this.props.data.tech){
+                                                    enoughPremis = true
                                                 }
                                             }else{
-                                                window.alert("建筑物已满")
+                                                if (building.premise <= this.props.data.tech){
+                                                    enoughPremis = true
+                                                }
+                                            }
+                                            if ( enoughPremis ){
+                                                if (city.architecture.length < city.development + 4 ){
+                                                    flag = false
+                                                    count = 0
+                                                    city.architecture.map((item)=>{
+                                                        if (item == "区立研究中心"){
+                                                            flag = true
+                                                        }
+                                                    })
+                                                    city.architecture.push(building.name)
+                                                    if(flag){
+                                                        count = 6
+                                                    }else{
+                                                        count = 5
+                                                    }
+                                                    flag = false
+                                                    city.architecture.map((item)=>{
+                                                        if (item == "市立研究中心"){
+                                                            flag = true
+                                                        }
+                                                    })
+                                                    if (flag){
+                                                        count *= 1.5
+                                                    }
+                                                    city.tech += count
+                                                    this.props.changeData(3,this.props.data.tech + count)
+                                                    //幻力
+                                                    flag = false
+                                                    count = 0
+                                                    city.architecture.map((item)=>{
+                                                        if (item == "区立工程大厦"){
+                                                            flag = true
+                                                        }
+                                                    })
+                                                    if(flag){
+                                                        count = 6
+                                                    }else{
+                                                        count = 5
+                                                    }
+                                                    flag = false
+                                                    city.architecture.map((item)=>{
+                                                        if (item == "市立工程大厦"){
+                                                            flag = true
+                                                        }
+                                                    })
+                                                    if (flag){
+                                                        count *= 1.5
+                                                    }
+                                                    city.magic += count
+                                                    this.props.changeData(2,this.props.data.magic + count)
+                                                    this.props.changeData(5,this.props.data.ap - 2)
+                                                    this.props.addRecord(nameA,nameB,nameC,3,city.name,building.name)
+                                                    build = true
+                                                    flag = false
+                                                    for (let i = 0;i < 8;i++){
+                                                        for (let j = 0;j < cityList[i].architecture.length;j++){
+                                                            if (cityList[i].architecture[j] == "地下研究所"){
+                                                                flag = true
+                                                                temp = i
+                                                                break
+                                                            }
+                                                        }
+                                                    }
+                                                    if ( flag ){
+                                                        cityList[temp].architecture.splice(cityList[temp].architecture.indexOf("地下研究所"),1)
+                                                    }
+                                                }else{
+                                                    window.alert("建筑物已满")
+                                                }
+                                            }else{
+                                                window.alert("科技不足")
                                             }
                                         }else{
-                                            window.alert("科技不足")
-                                        }
+                                            window.alert("已建过该建筑")
+                                        }                                       
                                         break
                                 }
                                 break
@@ -3206,7 +3474,7 @@ class Control extends React.Component{
                         <Alert bsStyle="warning">
                             初始说明：<strong>神器使总数量</strong>，确定公共图书馆等特殊建筑的非固定产出值，上限为30，不填默认30；
                             <strong>主要神器使</strong>主要为了支线攻略使用，系统仅显示主要神器使的好感、疲劳状态，该项<strong>不是必填项</strong>，镜音铃·连请用镜音双子代替，以免符号不对。
-                            <br />关于深夜食堂说明，鉴于每周目回复体力不同，所以请自行<strong>输入</strong>回复体力（最大50）
+                            <br />关于深夜食堂说明，鉴于每周目回复体力不同，所以请自行<strong>输入</strong>回复体力（最大50，且回复的是设置的全体主神器使）
                             <br />送礼说明，平时看攻略好像没人会写赠送礼物送恢复体力的，所以送礼功能只做了送增加好感的礼物（+8礼物）,要送体力的可以用食堂代替（其实是我懒的写）
                         </Alert>
                         <Form inline id="controlForm">
@@ -3315,7 +3583,7 @@ class Control extends React.Component{
                                     神器使：<strong>必填项</strong>，神器使A,B,C设置成上方<strong>主神器使</strong>的名字用于记录好感、疲劳等信息，设置<strong>非主神器使</strong>不会记录其信息，设置次序不要紧，但请不要重复！！！
                                     <br />操作内容：<strong>必填项</strong>，如果是战斗、巡查、开发请填次数（注意上限），如果是建设请填建筑物名称；
                                     <br /><strong>战斗</strong>完之后才能进行<strong>巡查等</strong>后续城市活动
-                                    <br />巡查: 日常巡查：三个巡查方式中只有<strong>日常巡查</strong>会减少主神器使（如果有设置的话）疲劳，日常巡查增加主神器使好感，任务巡查：只<strong>记录</strong>，没有别的功能，可通过备注详细什么任务，黑核巡查：如果未做黑核前置工作，系统将自动<strong>完成</strong>
+                                    <br />巡查: 日常巡查：三个巡查方式中只有<strong>日常巡查</strong>会减少主神器使（如果有设置的话）疲劳，日常巡查增加主神器使好感（烟花祭也请通过该项使用，但是也会增加好感哦），任务巡查：只<strong>记录</strong>，没有别的功能，可通过备注详细什么任务，黑核巡查：如果未做黑核前置工作，系统将自动<strong>完成</strong>(港湾区与海湾侧城请确保留一个建筑位，系统该处暂时未做处理)
                                     <br />神器使能力值说明：每个人神器使的能力值不一定都提升过，这里用的是神器使的初始能力值，仅作为参考，当能力值不足开发、建设时，提示框变为<strong>黄色</strong>，否则为<strong>绿色</strong>，系统仅做提示，不做<strong>阻止</strong>功能。       <br /><strong>宅</strong>选项仅在中央庭有效!
                                 </Alert>
                                 {currentChoice}

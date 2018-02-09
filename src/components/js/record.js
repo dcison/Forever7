@@ -34,6 +34,7 @@ class Record extends React.Component{
                 <Row>
                     <Col sm={12}>
                         <h3>历史记录</h3>
+                        {this.props.data.ap == 0?<Button style={{"marginBottom":"10px"}} onClick={this.nextDay.bind(this)}>下一天</Button>:""}
                         {
                             arr.length>0?
                             <Col>
@@ -41,8 +42,7 @@ class Record extends React.Component{
                                     {arr.map((item,index)=>{
                                             return <ListGroupItem key={index}>{item}</ListGroupItem>
                                     })}
-                                </ListGroup>
-                                {this.props.data.ap == 0?<Button onClick={this.nextDay.bind(this)}>下一天</Button>:""}
+                                </ListGroup>                                
                             </Col>:"暂无记录"
                         }                        
                     </Col>
