@@ -21,6 +21,7 @@ class Main extends React.Component{
           patrol: 0, //今日巡查次数0
           record: [<strong style={{"color":"green"}}>第7天</strong>],
           hasUpdate: false,
+          hasUpdate2: false,
           ensureIntelligence: false
       }
   }
@@ -64,10 +65,17 @@ class Main extends React.Component{
         this.setState({
           ensureIntelligence: !this.state.ensureIntelligence
         })
+        break
       case 8:
         this.setState({
           hasUpdate: data
         })
+        break
+      case 9:
+        this.setState({
+          hasUpdate2: data
+        })
+        break
     }
   }
   addRemarks(count){
@@ -76,7 +84,7 @@ class Main extends React.Component{
           data    
       data = window.prompt("请输入备注")
       if (data){
-        value.innerHTML += "；备注："+data
+        value.innerHTML += data
       }      
   }
   addRecord(A,B,C,mode,city,data){//A B C 对应神器使,mode对应操作,city,data对应数据
@@ -84,53 +92,60 @@ class Main extends React.Component{
     switch(mode){
       case 1:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}战斗了{data}次</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}战斗了{data}次；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 2:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}进行{data}</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}进行{data}；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 3:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}建设了{data}</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}建设了{data}；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 4:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}开发{data}次</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>{A}、{B}、{C}在{city}开发{data}次；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 5:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>我特么宅暴</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>我特么宅暴；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 6:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>赠送{A}8点礼物，好感变为{data[0]},目前已赠送过{data[1]}次</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>赠送{A}8点礼物，好感变为{data[0]},目前已赠送过{data[1]}次；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
       case 7:
         text = <div>
-          <span id={`re_${count}`} style={{"marginRight":"20px"}}>神器使{A}好感为{data}</span>
+          <span id={`re_${count}`} style={{"marginRight":"20px"}}>成功突袭{data}并回收该地区黑核；备注：</span>
           <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
         </div>
         arr.push(text)
         break
+      // case 8:
+      //   text = <div>
+      //       <span id={`re_${count}`} style={{"marginRight":"20px"}}>神器使{A}好感为{data}</span>
+      //       <Button bsStyle="warning" bsSize="small" onClick={this.addRemarks.bind(this,count)}>添加备注</Button>
+      //     </div>
+      //   arr.push(text)
+      //   break
       default:
         return
     }
