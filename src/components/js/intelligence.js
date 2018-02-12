@@ -19,7 +19,8 @@ class Intelligence extends React.Component{
         num2 = Math.floor(Math.random()*7),
         arr = [],
         name = [],
-        temp = null
+        temp = null,
+        flag = false//交战与否标志
         while(num1 == num2){
             num2 = Math.floor(Math.random()*7)
         }
@@ -28,8 +29,29 @@ class Intelligence extends React.Component{
         name.push(Information.daily[num1].name)
         name.push(Information.daily[num2].name)
         if (this.props.data.day > 2){
-            temp = Information.hero[5 - this.props.data.day]
-            name.push(temp.name)
+            switch(this.props.data.day){
+                case 5:
+                    if (!this.props.city[7].hasOpen){// 港湾区开始交战与否？
+                        flag = true
+                    }
+                    break
+                case 4:
+                    if (!this.props.city[6].hasOpen){// 旧城区开始交战与否？
+                        flag = true
+                    }
+                    break
+                case 3:
+                    if (!this.props.city[5].hasOpen){// 海湾侧城开始交战与否？
+                        flag = true
+                    }
+                    break
+            }
+            if (flag){
+                temp = Information.hero[5 - this.props.data.day]
+                name.push(temp.name)
+            }else{
+                name.push("暂无情报")
+            }           
         }
         this.setState({
             daily: arr,
@@ -158,7 +180,11 @@ class Intelligence extends React.Component{
                                 <Panel>
                                     <Panel.Heading>希罗情报</Panel.Heading>
                                     <Panel.Body>
-                                        <Button className="infoButton" onClick={(e) => this.stopIntelligence(e,1)}>{ this.state.name[2] }</Button>
+                                        {this.state.name[2] != "暂无情报"?(
+                                            <Button className="infoButton" onClick={(e) => this.stopIntelligence(e,1)}>{ this.state.name[2] }</Button>
+                                        ):(
+                                            <div style={{"padding":"6px 0"}}>暂无情报</div>
+                                        )}
                                     </Panel.Body>
                                 </Panel>
                             </Col>

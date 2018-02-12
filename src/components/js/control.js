@@ -160,16 +160,30 @@ class Control extends React.Component{
             }
             if (hero != null && !this.props.data.ensureIntelligence){
                 if (!hero.hasHappen){
-                    window.alert(hero.name)
                     switch(hero.city){
                         case "港湾区":
-                            city[7].blackcore = 2
+                            if(!city[7].hasOpen){
+                                city[7].blackcore = 2
+                                window.alert(hero.name)
+                            }else{
+                                window.alert("希罗行动失败")
+                            }                      
                             break
                         case "旧城区":
-                            city[6].blackcore = 2
+                            if(!city[6].hasOpen){
+                                city[6].blackcore = 2
+                                window.alert(hero.name)
+                            }else{
+                                window.alert("希罗行动失败")
+                            } 
                             break
                         case "海湾侧城":
-                            city[5].blackcore = 2
+                            if(!city[5].hasOpen){
+                                city[5].blackcore = 2
+                                window.alert(hero.name)
+                            }else{
+                                window.alert("希罗行动失败")
+                            } 
                             break
                     }
                 }
@@ -3280,7 +3294,7 @@ class Control extends React.Component{
             case "旧城区":
                 (!this.state.city[7].hasOpen)?finishText=(
                     <ButtonToolbar> 
-                        <Button bsStyle="info" onClick={ (e) => this.openCity(7) }>开启海湾侧城区域</Button>
+                        <Button bsStyle="info" onClick={ (e) => this.openCity(7) }>开启港湾区区域</Button>
                     </ButtonToolbar>
                 ):finishText = <h3>该区域已clear,请进行其他操作</h3>
                 break
@@ -3527,6 +3541,7 @@ class Control extends React.Component{
                             getAssassination={this.getAssassination.bind(this)}
                             recoverSpecial={this.recoverSpecial.bind(this)}
                             changeData={this.props.changeData.bind(this)}
+                            city={this.state.city}
                         />
                     </Col>
                     <Col sm={12}>
@@ -3581,10 +3596,11 @@ class Control extends React.Component{
                                 </Nav>
                                 <Alert bsStyle="warning">
                                     神器使：<strong>必填项</strong>，神器使A,B,C设置成上方<strong>主神器使</strong>的名字用于记录好感、疲劳等信息，设置<strong>非主神器使</strong>不会记录其信息，设置次序不要紧，但请不要重复！！！
-                                    <br />操作内容：<strong>必填项</strong>，如果是战斗、巡查、开发请填次数（注意上限），如果是建设请填建筑物名称；
+                                    <br />操作内容：<strong>必填项</strong>，如果是战斗、开发请填次数（注意上限），巡查、建设选择对应按钮即可；
                                     <br /><strong>战斗</strong>完之后才能进行<strong>巡查等</strong>后续城市活动
                                     <br />巡查: 日常巡查：三个巡查方式中只有<strong>日常巡查</strong>会减少主神器使（如果有设置的话）疲劳，日常巡查增加主神器使好感（烟花祭也请通过该项使用，但是也会增加好感哦），任务巡查：只<strong>记录</strong>，没有别的功能，可通过备注详细什么任务，黑核巡查：如果未做黑核前置工作，系统将自动<strong>完成</strong>(港湾区与海湾侧城请确保留一个建筑位，系统该处暂时未做处理)
-                                    <br />神器使能力值说明：每个人神器使的能力值不一定都提升过，这里用的是神器使的初始能力值，仅作为参考，当能力值不足开发、建设时，提示框变为<strong>黄色</strong>，否则为<strong>绿色</strong>，系统仅做提示，不做<strong>阻止</strong>功能。       <br /><strong>宅</strong>选项仅在中央庭有效!
+                                    <br />神器使能力值说明：每个人神器使的能力值不一定都提升过，这里用的是神器使的初始能力值，仅作为参考，当能力值不足开发、建设时，提示框变为<strong>黄色</strong>，否则为<strong>绿色</strong>，系统仅做提示，不做<strong>阻止</strong>功能。       
+                                    <br /><strong>宅</strong>选项仅在中央庭有效!
                                 </Alert>
                                 {currentChoice}
                             </Panel.Body>

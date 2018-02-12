@@ -143,9 +143,9 @@ export const BuildingList = {
             premise: 80
         },
         {
-            name: "潜水艇", //这个忘了，先设定跟急救中心一样需求科技>30
+            name: "潜水艇", 
             key: 7,
-            build: 30,
+            build: 20,
             premise: 30
         },
         {
