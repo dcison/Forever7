@@ -151,6 +151,15 @@ class Control extends React.Component{
             arr = this.state.mainArtifact,
             hero = this.state.hero
         if (!this.props.data.hasUpdate){
+            if(arr.length > 0){ //恢复体力
+                arr.map((item) =>{
+                    if (item.fatigue + 5 < 100){
+                        item.fatigue += 5
+                    }else{
+                        item.fatigue = 100
+                    }
+                })
+            }  
             if (this.props.data.day == 5 && !city[2].hasOpen && !city[3].hasOpen){
                 city[2].blackcore = 2
                 city[3].blackcore = 2
